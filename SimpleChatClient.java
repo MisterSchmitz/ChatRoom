@@ -45,16 +45,21 @@ public class SimpleChatClient {
         JFrame frame = new JFrame("Super Simple Chat Client - "+userName);
 
         JPanel mainPanel = new JPanel();
+        
         incoming = new JTextArea(15,25);
         incoming.setLineWrap(true);
         incoming.setWrapStyleWord(true);
         incoming.setEditable(false);
+        
         JScrollPane qScroller = new JScrollPane(incoming);
         qScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        
         outgoing = new JTextField(20);
+        
         JButton sendButton = new JButton("Send");
         sendButton.addActionListener(new SendButtonListener());
+        
         mainPanel.add(qScroller);
         mainPanel.add(outgoing);
         mainPanel.add(sendButton);
@@ -65,7 +70,7 @@ public class SimpleChatClient {
         frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
         frame.setSize(400,375);
         frame.setVisible(true);
-        
+
         frame.getRootPane().setDefaultButton(sendButton);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -90,6 +95,7 @@ public class SimpleChatClient {
                 while ((message = reader.readLine()) != null) {
                     System.out.println("read " + message);
                     incoming.append(message + "\n");
+                    incoming.setCaretPosition(incoming.getDocument().getLength());
                 }
             } catch(Exception ex) {
                 ex.printStackTrace();
