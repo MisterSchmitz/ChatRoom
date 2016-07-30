@@ -43,7 +43,6 @@ public class SimpleChatClient {
 
     public void go() {
         JFrame frame = new JFrame("Super Simple Chat Client - "+userName);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mainPanel = new JPanel();
         incoming = new JTextArea(15,25);
@@ -66,6 +65,9 @@ public class SimpleChatClient {
         frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
         frame.setSize(400,375);
         frame.setVisible(true);
+        
+        frame.getRootPane().setDefaultButton(sendButton);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public class SendButtonListener implements ActionListener {
