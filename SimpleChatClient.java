@@ -9,17 +9,42 @@ public class SimpleChatClient {
 
     JTextArea incoming;
     JTextField outgoing;
+    String userName;
     BufferedReader reader;
     PrintWriter writer;
     Socket sock;
 
     public static void main(String[] args) {
-        SimpleChatClient client = new SimpleChatClient();
-        client.go();
+        try {
+            new SimpleChatClient().startUp(args[0]);
+        } catch(ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Not started. You must pass in a user name as an argument.");
+        }
+    }
+
+    public void startUp(String name) {
+        userName = name;
+        setUpNetworking();
+        go();
+    }
+
+    private void setUpNetworking() {
+        // open connection to the server
+        try {
+            sock = new Socket("127.0.0.1", 5000);
+            InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
+            reader = new BufferedReader(streamReader);
+            writer = new PrintWriter(sock.getOutputStream());
+            System.out.println("networking established");
+        } catch(IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void go() {
-        JFrame frame = new JFrame("Ludicrously Simple Chat Client");
+        JFrame frame = new JFrame("Super Simple Chat Client - "+userName);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JPanel mainPanel = new JPanel();
         incoming = new JTextArea(15,25);
         incoming.setLineWrap(true);
@@ -34,7 +59,6 @@ public class SimpleChatClient {
         mainPanel.add(qScroller);
         mainPanel.add(outgoing);
         mainPanel.add(sendButton);
-        setUpNetworking();
 
         Thread readerThread = new Thread(new IncomingReader());
         readerThread.start();
@@ -44,22 +68,10 @@ public class SimpleChatClient {
         frame.setVisible(true);
     }
 
-    private void setUpNetworking() {
-        try {
-            sock = new Socket("127.0.0.1", 5000);
-            InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
-            reader = new BufferedReader(streamReader);
-            writer = new PrintWriter(sock.getOutputStream());
-            System.out.println("networking established");
-        } catch(IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public class SendButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent ev) {
             try {
-                writer.println(outgoing.getText());
+                writer.println(userName + ": "+outgoing.getText());
                 writer.flush();
             } catch(Exception ex) {
                 ex.printStackTrace();
