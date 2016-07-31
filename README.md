@@ -17,17 +17,17 @@ VerySimpleChatServer.java
 ### How do I run the application?
 Download the included .java files into local directory of your choice.  
 
-Compile the java files on your machine.
-    javac SimpleChatClient.java
-    javac VerySimpleChatServer.java
+From the command prompt, compile the java files:  
+`javac SimpleChatClient.java`  
+`javac VerySimpleChatServer.java`  
 
-In one command prompt, start the chat server:
-    java VerySimpleChatServer  
+In one command prompt, start the chat server:  
+`java VerySimpleChatServer`  
 
-In a separate command prompt, Start chat clients, passing in a User Name for each one like so:
-    java SimpleChatClient MisterSchmitz  
+In a separate command prompt, Start chat clients, passing in a User Name for each one like so:  
+`java SimpleChatClient MisterSchmitz`  
 
-Repeat above step any number of times with different user names.
+Repeat last step any number of times with different user names.
 
 ### Application Features
 * Chat client makes use of Threads to simultaneously send outgoing messages while reading incoming messages
